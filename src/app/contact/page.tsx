@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import Link from "next/link";
 import { Bug, Handshake, Lightbulb, Mail, MessageCircle, MessageSquareHeart } from "lucide-react";
 import { ContactForm } from "@/components/forms/contact-form";
@@ -9,12 +10,11 @@ import { siteConfig } from "@/config/site";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { contactTopics, type ContactTopic } from "@/lib/validation";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Contact",
   description: "Get in touch with BuildInstead — general questions, collaborations, tool suggestions, bug reports and feedback.",
-  alternates: { canonical: "/contact" },
-  openGraph: { url: "/contact", title: "Contact · BuildInstead" },
-};
+  path: "/contact",
+});
 
 const reasons = [
   { icon: MessageCircle, title: "General enquiries", body: "Questions about BuildInstead or anything we've built." },
@@ -51,10 +51,10 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
           </ul>
           <div className="mt-8 space-y-2 border-t border-ink/[0.08] pt-8 text-sm">
             <h2 className="eyebrow mb-4 text-steel">Other ways to reach us</h2>
-            <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-2.5 font-medium hover:text-lime-deep">
+            <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-2.5 py-2 font-medium hover:text-lime-deep">
               <Mail className="size-4" /> {siteConfig.email}
             </a>
-            <a href={siteConfig.instagram.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 font-medium hover:text-lime-deep">
+            <a href={siteConfig.instagram.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 py-2 font-medium hover:text-lime-deep">
               <InstagramIcon className="size-4" /> {siteConfig.instagram.handle}
               <span className="font-normal text-steel">· DM us on Instagram</span>
             </a>

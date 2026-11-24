@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { SuggestForm } from "@/components/forms/suggest-form";
 import { PageHeader } from "@/components/layout/page-header";
 import { Container } from "@/components/ui/primitives";
 import { siteConfig } from "@/config/site";
 import { isSupabaseConfigured } from "@/lib/supabase";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Suggest a Tool",
   description: "Paying for something that should be free? Tell us what it is and we might build a free alternative.",
-  alternates: { canonical: "/suggest" },
-  openGraph: { url: "/suggest", title: "Suggest a Tool · BuildInstead" },
-};
+  path: "/suggest",
+});
 
 const examples = ["PDF tools", "Image compressors", "Invoice generators", "Habit trackers", "QR code makers", "Budget sheets"];
 

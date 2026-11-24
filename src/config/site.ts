@@ -7,7 +7,12 @@ export const siteConfig = {
   tagline: "Why Pay When You Can Build?",
   description:
     "We build one useful digital tool every day — simple, free alternatives to things you shouldn't have to pay for.",
-  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://buildinstead.com").replace(/\/$/, ""),
+  // Set NEXT_PUBLIC_SITE_URL to your real domain. Until then, Vercel's own
+  // production URL is used so canonical links never point at a domain you don't own.
+  url: (
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "https://buildinstead.com")
+  ).replace(/\/$/, ""),
 
   // Official BuildInstead profiles.
   instagram: {

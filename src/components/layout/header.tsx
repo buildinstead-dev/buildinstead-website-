@@ -33,7 +33,7 @@ export function Header() {
         Skip to content
       </a>
       <Container className="flex h-16 items-center justify-between gap-6">
-        <Link href="/" aria-label="BuildInstead home" className="shrink-0">
+        <Link href="/" aria-label="BuildInstead home" className="shrink-0 py-3">
           <Logo variant="onDark" priority className="h-[19px] sm:h-[21px]" />
         </Link>
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
@@ -7,12 +8,11 @@ import { categories } from "@/data/categories";
 import { getIcon } from "@/lib/icons";
 import { getCategoryCounts } from "@/lib/products";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Categories",
   description: "Browse BuildInstead's free tools by category — productivity, finance, developer tools, PDFs, images, education, everyday utilities and automation.",
-  alternates: { canonical: "/categories" },
-  openGraph: { url: "/categories", title: "Categories · BuildInstead" },
-};
+  path: "/categories",
+});
 
 export default function CategoriesPage() {
   const counts = getCategoryCounts();

@@ -8,6 +8,7 @@ import { Badge, ButtonLink, Container } from "@/components/ui/primitives";
 import { absoluteUrl } from "@/config/site";
 import { getCategory } from "@/data/categories";
 import { getIcon } from "@/lib/icons";
+import { jsonLdScript } from "@/lib/metadata";
 import { formatDate, formatDay, getAllProducts, getProduct, getRelatedProducts, statusMeta } from "@/lib/products";
 import { getToolComponent } from "@/tools/registry";
 
@@ -238,7 +239,7 @@ export default async function ProductPage({ params }: PageProps<"/tools/[slug]">
         </section>
       )}
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
     </>
   );
 }

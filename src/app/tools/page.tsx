@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { Suspense } from "react";
 import { PageHeader } from "@/components/layout/page-header";
 import { ToolsDirectory } from "@/components/products/tools-directory";
 import { Container } from "@/components/ui/primitives";
 import { getAllProducts, getStats, hasUsageData } from "@/lib/products";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Explore Tools",
   description: "Browse every free tool BuildInstead has built — search by problem, filter by category and find a free alternative to what you pay for.",
-  alternates: { canonical: "/tools" },
-  openGraph: { url: "/tools", title: "Explore Tools · BuildInstead" },
-};
+  path: "/tools",
+});
 
 export default function ToolsPage() {
   const products = getAllProducts();

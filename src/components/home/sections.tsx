@@ -80,7 +80,7 @@ export function LatestBuilds({ products }: { products: Product[] }) {
         </div>
         {products.length === 0 && (
           <div className="mt-6 flex justify-center">
-            <Link href="/tools" className="inline-flex items-center gap-1.5 text-sm font-medium text-steel transition-colors hover:text-ink">
+            <Link href="/tools" className="inline-flex items-center gap-1.5 py-2 text-sm font-medium text-steel transition-colors hover:text-ink">
               View All Builds <ArrowRight className="size-4" />
             </Link>
           </div>

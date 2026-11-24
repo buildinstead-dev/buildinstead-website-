@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { ArrowRight, Code2, Eye, Gift, Lightbulb } from "lucide-react";
 import { InstagramIcon } from "@/components/brand/social-icons";
 import { PageHeader } from "@/components/layout/page-header";
 import { ButtonLink, Container } from "@/components/ui/primitives";
 import { siteConfig } from "@/config/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About",
   description: "BuildInstead builds one useful digital tool every day — free alternatives to everyday things people pay for. Here's why we started.",
-  alternates: { canonical: "/about" },
-  openGraph: { url: "/about", title: "About · BuildInstead" },
-};
+  path: "/about",
+});
 
 const challenge = [
   { icon: Lightbulb, title: "Pick a problem", body: "Something real people pay for, usually monthly, that really shouldn't need a subscription." },

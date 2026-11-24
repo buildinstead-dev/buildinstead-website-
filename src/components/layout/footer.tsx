@@ -45,7 +45,7 @@ export function Footer() {
           <FooterColumn title="Categories" links={categories.slice(0, 5).map((c) => ({ label: c.name, href: `/categories/${c.slug}` }))} />
           <div>
             <FooterColumn title="BuildInstead" links={company} />
-            <a href={`mailto:${siteConfig.email}`} className="mt-3 inline-block break-all text-sm text-fog transition-colors hover:text-lime">
+            <a href={`mailto:${siteConfig.email}`} className="mt-1 inline-block break-all py-2 text-sm text-fog transition-colors hover:text-lime">
               {siteConfig.email}
             </a>
           </div>
