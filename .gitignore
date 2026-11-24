@@ -1,0 +1,26 @@
+# Dependencies
+node_modules
+
+# Next.js build output
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+
+# Environment variables (never commit real secrets; .env.example is safe)
+.env
+.env.*
+!.env.example
+
+# Deployment
+.vercel
+
+# Raw brand kit (the logos the site uses live in public/brand)
+buildinstead-logo-files
+buildinstead-logo-files.zip
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
