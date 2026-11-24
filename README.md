@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="public/brand/buildinstead-primary-light-bg.svg" alt="BuildInstead" width="360" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/brand/buildinstead-primary-dark-bg.svg" />
+    <img src="public/brand/buildinstead-primary-light-bg.svg" alt="BuildInstead" width="360" />
+  </picture>
 </p>
 
 <h3 align="center">Why Pay When You Can Build?</h3>
