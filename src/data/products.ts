@@ -31,7 +31,7 @@ import type { Product } from "@/lib/types";
  *     techStack: ["Next.js", "pdf-lib"],
  *     status: "available",
  *     publishedAt: "2026-12-01",
- *     githubUrl: "https://github.com/buildinstead/pdf-merger",
+ *     githubUrl: "https://github.com/buildinstead-dev/pdf-merger",
  *     instagramReelUrl: "https://www.instagram.com/reel/XXXXXXXX/",
  *     featured: true,
  *   },

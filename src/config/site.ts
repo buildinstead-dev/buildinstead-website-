@@ -9,14 +9,16 @@ export const siteConfig = {
     "We build one useful digital tool every day — simple, free alternatives to things you shouldn't have to pay for.",
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://buildinstead.com").replace(/\/$/, ""),
 
-  // Official Instagram profile. GitHub and email below are still placeholders.
+  // Official BuildInstead profiles.
   instagram: {
     handle: "@buildinstead.dev",
     url: "https://www.instagram.com/buildinstead.dev/",
   },
   github: {
-    url: "https://github.com/buildinstead",
+    url: "https://github.com/buildinstead-dev",
   },
+  // PLACEHOLDER — no brand mailbox is configured yet. Replace with the real
+  // BuildInstead address once it exists; contact forms fall back to it.
   email: "hello@buildinstead.com",
 } as const;
 
