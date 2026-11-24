@@ -80,18 +80,3 @@ export function Honeypot({ value, onChange }: { value: string; onChange: (v: str
   );
 }
 
-export function ConfigNotice({ email, children }: { email: string; children?: ReactNode }) {
-  return (
-    <div className="flex gap-3 rounded-xl border border-amber-600/25 bg-amber-50 p-4 text-sm leading-relaxed text-amber-950">
-      <span aria-hidden className="mt-1 size-2 shrink-0 rounded-full bg-amber-500" />
-      <div>
-        {children ?? (
-          <>
-            <strong className="font-semibold">Direct submissions aren&rsquo;t switched on yet.</strong> When you press the button, your email app will open with everything filled in, addressed to{" "}
-            <span className="font-medium">{email}</span>. Nothing is sent until you hit send there.
-          </>
-        )}
-      </div>
-    </div>
-  );
-}

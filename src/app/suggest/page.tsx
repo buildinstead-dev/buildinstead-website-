@@ -3,8 +3,6 @@ import { pageMetadata } from "@/lib/metadata";
 import { SuggestForm } from "@/components/forms/suggest-form";
 import { PageHeader } from "@/components/layout/page-header";
 import { Container } from "@/components/ui/primitives";
-import { siteConfig } from "@/config/site";
-import { isSupabaseConfigured } from "@/lib/supabase";
 
 export const metadata: Metadata = pageMetadata({
   title: "Suggest a Tool",
@@ -23,7 +21,7 @@ export default function SuggestPage() {
         intro="Some of our best ideas will come from you. Tell us about the subscription that annoys you most and we might make it tomorrow's build."
       />
       <Container className="grid gap-12 py-14 sm:py-20 lg:grid-cols-[1fr_320px] lg:gap-16">
-        <SuggestForm dbEnabled={isSupabaseConfigured()} contactEmail={siteConfig.email} />
+        <SuggestForm />
         <aside className="space-y-8 lg:pt-4">
           <div>
             <h2 className="eyebrow text-lime-deep">What makes a good suggestion</h2>

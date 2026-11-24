@@ -1,43 +1,20 @@
-import { NextResponse } from "next/server";
-import { insertRow, isSupabaseConfigured } from "@/lib/supabase";
-import { hasErrors, validateSuggestion, type SuggestionInput } from "@/lib/validation";
+import { suggestionConfirmation, suggestionNotification } from "@/lib/email-templates";
+import { handleSubmission } from "@/lib/submissions";
+import { validateSuggestion, type SuggestionInput } from "@/lib/validation";
+
+const str = (v: unknown) => (typeof v === "string" ? v : "");
 
 export async function POST(request: Request) {
-  if (!isSupabaseConfigured()) {
-    return NextResponse.json({ ok: false, error: "Submissions are not configured on this site yet." }, { status: 503 });
-  }
-
-  let body: Partial<SuggestionInput> & { company?: string };
-  try {
-    const text = await request.text();
-    if (text.length > 10_000) return NextResponse.json({ ok: false, error: "Request too large." }, { status: 413 });
-    body = JSON.parse(text);
-  } catch {
-    return NextResponse.json({ ok: false, error: "Invalid request." }, { status: 400 });
-  }
-
-  // Honeypot: a hidden field only bots fill in.
-  if (body.company) return NextResponse.json({ ok: false, error: "Invalid request." }, { status: 400 });
-
-  const input: SuggestionInput = {
-    paidTool: String(body.paidTool ?? ""),
-    problem: String(body.problem ?? ""),
-    wish: String(body.wish ?? ""),
-    email: String(body.email ?? ""),
-  };
-  const errors = validateSuggestion(input);
-  if (hasErrors(errors)) return NextResponse.json({ ok: false, errors }, { status: 422 });
-
-  try {
-    await insertRow("tool_suggestions", {
-      paid_tool: input.paidTool.trim(),
-      problem: input.problem.trim(),
-      wish: input.wish.trim(),
-      email: input.email.trim() || null,
-    });
-    return NextResponse.json({ ok: true }, { status: 201 });
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ ok: false, error: "We couldn't save your suggestion. Please try again." }, { status: 502 });
-  }
+  return handleSubmission<SuggestionInput>(request, {
+    kind: "suggestion",
+    parse: (b) => ({ paidTool: str(b.paidTool), problem: str(b.problem), wish: str(b.wish), email: str(b.email) }),
+    validate: validateSuggestion,
+    fingerprint: (i) => [i.paidTool, i.problem, i.wish, i.email],
+    notification: suggestionNotification,
+    replyTo: (i) => i.email.trim() || undefined,
+    confirmTo: (i) => i.email.trim() || undefined,
+    confirmation: suggestionConfirmation,
+    table: "tool_suggestions",
+    row: (i) => ({ paid_tool: i.paidTool.trim(), problem: i.problem.trim(), wish: i.wish.trim(), email: i.email.trim() || null }),
+  });
 }

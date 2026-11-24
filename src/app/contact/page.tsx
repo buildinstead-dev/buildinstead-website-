@@ -7,7 +7,6 @@ import { InstagramIcon } from "@/components/brand/social-icons";
 import { PageHeader } from "@/components/layout/page-header";
 import { Container } from "@/components/ui/primitives";
 import { siteConfig } from "@/config/site";
-import { isSupabaseConfigured } from "@/lib/supabase";
 import { contactTopics, type ContactTopic } from "@/lib/validation";
 
 export const metadata: Metadata = pageMetadata({
@@ -61,7 +60,7 @@ export default async function ContactPage({ searchParams }: PageProps<"/contact"
           </div>
         </aside>
         <div className="order-1 lg:order-2">
-          <ContactForm dbEnabled={isSupabaseConfigured()} contactEmail={siteConfig.email} initialTopic={initialTopic} />
+          <ContactForm initialTopic={initialTopic} />
         </div>
       </Container>
     </>

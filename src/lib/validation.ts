@@ -2,7 +2,8 @@
 
 export type FieldErrors<T> = Partial<Record<keyof T, string>>;
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+// Conservative: blocks characters (<>"(),;: and spaces) that could break or inject into email headers.
+const EMAIL_RE = /^[A-Za-z0-9._%+'-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
 
 function len(v: unknown) {
   return typeof v === "string" ? v.trim().length : 0;
