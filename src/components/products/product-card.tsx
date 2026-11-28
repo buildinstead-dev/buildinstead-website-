@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Badge, cn } from "@/components/ui/primitives";
@@ -19,6 +20,18 @@ export function ProductCard({ product, className }: { product: Product; classNam
         className,
       )}
     >
+      {product.thumbnail && (
+        <div className="-mx-5 -mt-5 mb-5 overflow-hidden rounded-t-2xl border-b border-ink/[0.06] bg-paper sm:-mx-6 sm:-mt-6">
+          <Image
+            src={product.thumbnail.src}
+            alt={product.thumbnail.alt}
+            width={product.thumbnail.width}
+            height={product.thumbnail.height}
+            sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+            className="aspect-[16/10] h-auto w-full object-cover object-left-top transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+          />
+        </div>
+      )}
       <div className="flex items-start justify-between gap-3">
         <div className={cn("grid size-12 place-items-center rounded-xl transition-colors", usable ? "bg-ink text-lime" : "bg-mist text-steel")}>
           <Icon className="size-[22px]" strokeWidth={1.8} />
@@ -48,7 +61,7 @@ export function ProductCard({ product, className }: { product: Product; classNam
             usable ? "text-ink group-hover:text-lime-deep" : "text-steel",
           )}
         >
-          {usable ? "View Tool" : "View Details"}
+          {product.ctaLabel ?? (usable ? "View Tool" : "View Details")}
           <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </span>
       </div>

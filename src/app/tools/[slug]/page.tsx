@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowUpRight, Calendar, Check, ChevronRight, Clapperboard, Construction, Cpu, ExternalLink, Hourglass, ShieldCheck, Tag } from "lucide-react";
 import { GitHubIcon } from "@/components/brand/social-icons";
 import { ProductCard } from "@/components/products/product-card";
+import { ProductShowcase } from "@/components/products/product-showcase";
 import { Badge, ButtonLink, Container } from "@/components/ui/primitives";
 import { absoluteUrl } from "@/config/site";
 import { getCategory } from "@/data/categories";
@@ -22,7 +23,8 @@ export async function generateMetadata({ params }: PageProps<"/tools/[slug]">): 
   const { slug } = await params;
   const product = getProduct(slug);
   if (!product) return {};
-  const title = `${product.name} — free ${getCategory(product.category)?.name.toLowerCase() ?? "tool"}`;
+  const cat = getCategory(product.category)?.name.toLowerCase();
+  const title = `${product.name} — free ${cat ? (cat.endsWith("tools") ? cat : `${cat} tool`) : "tool"}`;
   return {
     title,
     description: product.description,
@@ -53,9 +55,20 @@ export default async function ProductPage({ params }: PageProps<"/tools/[slug]">
     applicationCategory: category?.name,
     operatingSystem: "Web browser",
     url: absoluteUrl(`/tools/${product.slug}`),
+    ...(product.thumbnail && { image: absoluteUrl(product.thumbnail.src) }),
     ...(product.publishedAt && { datePublished: product.publishedAt }),
     ...(available && { offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }),
   };
+
+  // Featured hosted products with real previews get a full landing page.
+  if (product.screenshots && product.screenshots.length > 0) {
+    return (
+      <>
+        <ProductShowcase product={product} related={related} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
+      </>
+    );
+  }
 
   return (
     <>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Check, Clapperboard, Hammer, Search, Share2 } from "lucide-react";
 import { LogoIcon } from "@/components/brand/logo";
@@ -56,26 +57,28 @@ export function StatsStrip({ stats }: { stats: ReturnType<typeof getStats> }) {
 /* ------------------------------------------------------------------ */
 
 export function LatestBuilds({ products }: { products: Product[] }) {
+  const spotlight = products.find((p) => p.featured && p.thumbnail && p.status === "available");
+  const rest = products.filter((p) => p !== spotlight);
   return (
     <section className="py-20 sm:py-28">
       <Container>
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <SectionHeading eyebrow="Latest builds" title="Fresh off the workbench." intro="Every tool we ship lands here first. Free to use, no account needed." />
+          <SectionHeading eyebrow="Latest builds" title="Fresh off the workbench." intro="Every tool we ship lands here first, free for everyone to use." />
           {products.length > 0 && (
             <ButtonLink href="/tools" variant="outline" className="shrink-0 self-start sm:self-auto">
               View All Builds <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
             </ButtonLink>
           )}
         </div>
-        <div className="mt-12">
-          {products.length > 0 ? (
+        <div className="mt-12 space-y-4">
+          {products.length === 0 && <EmptyBuilds />}
+          {spotlight && <Spotlight product={spotlight} />}
+          {rest.length > 0 && (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((p) => (
+              {rest.map((p) => (
                 <ProductCard key={p.id} product={p} className="reveal" />
               ))}
             </div>
-          ) : (
-            <EmptyBuilds />
           )}
         </div>
         {products.length === 0 && (
@@ -87,6 +90,54 @@ export function LatestBuilds({ products }: { products: Product[] }) {
         )}
       </Container>
     </section>
+  );
+}
+
+function Spotlight({ product }: { product: Product }) {
+  const thumb = product.thumbnail!;
+  const launch = product.launchLinks?.primary ?? (product.productUrl ? { label: `Open ${product.name}`, url: product.productUrl } : undefined);
+  return (
+    <article className="reveal group relative overflow-hidden rounded-3xl border border-ink/[0.08] bg-white">
+      <div className="grid items-center lg:grid-cols-[1fr_1.25fr]">
+        <div className="p-6 sm:p-10 lg:p-12">
+          <p className="eyebrow flex items-center gap-2 text-lime-deep">
+            <span aria-hidden className="inline-block h-3 w-1 bg-lime-deep" />
+            Featured build · {formatDay(product.day)}
+          </p>
+          <h3 className="mt-4 text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">{product.name}</h3>
+          <p className="mt-4 max-w-md text-lg leading-relaxed text-steel">{product.description}</p>
+          <ul className="mt-6 space-y-2.5">
+            {product.features.slice(0, 4).map((f) => (
+              <li key={f} className="flex gap-2.5 text-sm">
+                <span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-md bg-lime"><Check className="size-3.5" strokeWidth={3} /></span>
+                {f}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <ButtonLink href={`/tools/${product.slug}`} variant="ink" size="lg">
+              {product.ctaLabel ?? `Explore ${product.name}`} <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </ButtonLink>
+            {launch && (
+              <ButtonLink href={launch.url} external variant="outline" size="lg">
+                {launch.label} <ArrowUpRight className="size-4" />
+              </ButtonLink>
+            )}
+          </div>
+        </div>
+        <Link href={`/tools/${product.slug}`} tabIndex={-1} aria-hidden className="relative block h-full min-h-64 overflow-hidden bg-ink lg:min-h-[480px]">
+          <div aria-hidden className="blueprint absolute inset-0 opacity-70" />
+          <Image
+            src={thumb.src}
+            alt=""
+            width={thumb.width}
+            height={thumb.height}
+            sizes="(min-width: 1024px) 640px, 100vw"
+            className="absolute left-6 top-8 w-[880px] max-w-none rounded-xl border border-white/10 shadow-[0_30px_60px_-20px_rgb(0_0_0/0.7)] transition-transform duration-700 ease-out group-hover:-translate-y-1 sm:left-10 sm:top-10 lg:top-12"
+          />
+        </Link>
+      </div>
+    </article>
   );
 }
 

@@ -9,6 +9,13 @@ import type { ProductIconName } from "@/lib/icons";
  */
 export type ProductStatus = "coming-soon" | "in-development" | "available" | "archived";
 
+export interface ProductImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
 export interface Product {
   /** Stable unique id, e.g. "bi-001". Never reuse or change it. */
   id: string;
@@ -44,6 +51,16 @@ export interface Product {
   githubUrl?: string;
   instagramReelUrl?: string;
   featured?: boolean;
+  /** Label for the card / spotlight button, e.g. "Explore LifeOS". Defaults to "View Tool". */
+  ctaLabel?: string;
+  /** Product image for cards and the homepage spotlight (file in /public). */
+  thumbnail?: ProductImage;
+  /** Genuine screenshots of the product, shown on its page. */
+  screenshots?: (ProductImage & { caption: string })[];
+  /** Direct entry points into a hosted product (e.g. sign-up and sign-in pages). */
+  launchLinks?: { primary: { label: string; url: string }; secondary?: { label: string; url: string } };
+  /** Short benefit statements for richer product pages. */
+  benefits?: { title: string; body: string }[];
   /**
    * Real usage numbers ONLY (e.g. from your analytics). The "Popular" sort
    * on /tools appears only once at least one product has this set.

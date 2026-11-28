@@ -59,6 +59,11 @@ export function getLatestProducts(limit = 6): Product[] {
     .slice(0, limit);
 }
 
+/** The newest featured product you can use right now (shown in the navigation). */
+export function getFeaturedProduct(): Product | undefined {
+  return getAllProducts().find((p) => p.featured && p.status === "available");
+}
+
 export function getRelatedProducts(product: Product, limit = 3): Product[] {
   const others = getAllProducts().filter((p) => p.slug !== product.slug && p.status !== "archived");
   const same = others.filter((p) => p.category === product.category);

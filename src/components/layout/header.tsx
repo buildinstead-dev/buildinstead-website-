@@ -13,9 +13,16 @@ function isActive(pathname: string, href: string) {
   return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function Header() {
+type NavItem = { label: string; href: string; featured?: boolean };
+
+/** `featured` is the current featured product from the build log (passed in by the layout). */
+export function Header({ featured }: { featured?: { label: string; href: string } }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const withFeatured = (items: readonly NavItem[]): NavItem[] =>
+    featured ? [items[0], { ...featured, featured: true }, ...items.slice(1)] : [...items];
+  const desktopNav = withFeatured(mainNav);
+  const mobileNav = withFeatured(fullNav);
 
   // Close the sheet on navigation; lock scroll while it is open.
   useEffect(() => setOpen(false), [pathname]);
@@ -38,7 +45,7 @@ export function Header() {
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
-          {mainNav.map((item) => {
+          {desktopNav.map((item) => {
             const active = isActive(pathname, item.href);
             return (
               <Link
@@ -48,8 +55,11 @@ export function Header() {
                 className={cn(
                   "relative rounded-lg px-3 py-2 text-sm transition-colors",
                   active ? "text-white" : "text-fog hover:text-white",
+                  item.href === "/suggest" && "hidden lg:block",
+                  item.featured && "inline-flex items-center gap-1.5",
                 )}
               >
+                {item.featured && <span aria-hidden className="size-1.5 rounded-full bg-lime" />}
                 {item.label}
                 {active && <span aria-hidden className="absolute inset-x-3 -bottom-[13px] h-0.5 bg-lime" />}
               </Link>
@@ -94,7 +104,7 @@ export function Header() {
       >
         <Container className="flex min-h-full flex-col py-6">
           <nav aria-label="Mobile" className="flex flex-col">
-            {fullNav.map((item, i) => {
+            {mobileNav.map((item, i) => {
               const active = isActive(pathname, item.href);
               return (
                 <Link
@@ -107,7 +117,10 @@ export function Header() {
                     active ? "text-lime" : "text-white",
                   )}
                 >
-                  {item.label}
+                  <span className="flex items-center gap-3">
+                    {item.label}
+                    {item.featured && <span className="rounded-md bg-lime px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-ink">Featured</span>}
+                  </span>
                   <ArrowRight className={cn("size-5", active ? "text-lime" : "text-steel")} />
                 </Link>
               );

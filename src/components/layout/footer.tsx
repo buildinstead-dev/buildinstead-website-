@@ -5,6 +5,7 @@ import { GitHubIcon, InstagramIcon } from "@/components/brand/social-icons";
 import { Container } from "@/components/ui/primitives";
 import { siteConfig } from "@/config/site";
 import { categories } from "@/data/categories";
+import { getFeaturedProduct } from "@/lib/products";
 
 const explore = [
   { label: "Explore Tools", href: "/tools" },
@@ -19,6 +20,7 @@ const company = [
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const featured = getFeaturedProduct();
   return (
     <footer className="on-dark bg-ink text-white">
       <Container className="py-16 sm:py-20">
@@ -41,7 +43,7 @@ export function Footer() {
             </div>
           </div>
 
-          <FooterColumn title="Explore" links={explore} />
+          <FooterColumn title="Explore" links={featured ? [{ label: featured.name, href: `/tools/${featured.slug}` }, ...explore] : explore} />
           <FooterColumn title="Categories" links={categories.slice(0, 5).map((c) => ({ label: c.name, href: `/categories/${c.slug}` }))} />
           <div>
             <FooterColumn title="BuildInstead" links={company} />

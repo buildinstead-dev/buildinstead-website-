@@ -38,7 +38,7 @@ export function Hero({ day }: { day: number }) {
               Follow Our Journey
             </ButtonLink>
           </div>
-          <p className="mt-8 font-mono text-xs text-steel">Free tools · No sign-ups · Built one day at a time</p>
+          <p className="mt-8 font-mono text-xs text-steel">Free tools · No paywalls · Built one day at a time</p>
         </div>
 
         <div className="animate-rise [animation-delay:200ms]">

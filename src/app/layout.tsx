@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { siteConfig } from "@/config/site";
 import { jsonLdScript } from "@/lib/metadata";
+import { getFeaturedProduct } from "@/lib/products";
 import "./globals.css";
 
 const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk", display: "swap", weight: ["400", "500", "600", "700"] });
@@ -57,10 +58,11 @@ const jsonLd = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const featured = getFeaturedProduct();
   return (
     <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
       <body className="flex min-h-dvh flex-col">
-        <Header />
+        <Header featured={featured && { label: featured.name, href: `/tools/${featured.slug}` }} />
         <main id="main" className="flex-1">
           {children}
         </main>
